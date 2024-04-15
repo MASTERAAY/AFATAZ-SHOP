@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="img/logo.png" />
+    <title>AFATAZ SHOP</title>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,300;0,400;0,700;1,700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Font Awesome -->
+    <script
+      src="https://kit.fontawesome.com/d55f41475d.js"
+      crossorigin="anonymous"
+    ></script>
+
+    <!-- My Style -->
+    <link rel="stylesheet" href="css/style.css" />
+
+    <!--AlpineJs-->
+    <script
+      defer
+      src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"
+    ></script>
+
+    <!--App-->
+    <script src="src/app.js" async></script>
+  </head>
+
+  <body>
+    <!-- Navbar start -->
+    <nav class="navbar" x-data>
+      <div class="navbar-logo">
+        <a href="index.html"
+          ><img src="img/logo.png" alt="logo" />AFATAZ<span>shop</span>.</a
+        >
+      </div>
+
+      <div class="navbar-nav">
+        <a href="index.html">Home</a>
+        <a href="about.html">About Us</a>
+        <a href="products.html">Menu</a>
+        <a href="contact.html">Contact</a>
+      </div>
+
+      <div class="navbar-extra">
+        <a href="#" id="search-button"
+          ><i class="fa-2x fa-solid fa-magnifying-glass"></i
+        ></a>
+        <a href="#" id="shopping-cart-button"
+          ><i class="fa-2x fa-solid fa-cart-shopping"></i>
+          <span
+            class="quantity-badge"
+            x-show="$store.cart.quantity"
+            x-text="$store.cart.quantity"
+          ></span>
+        </a>
+        <a href="#" id="hamburger-menu"
+          ><i class="fa-2x fa-solid fa-bars"></i
+        ></a>
+      </div>
+
+      <!-- Search Form start -->
+      <div class="search-form">
+        <input type="search" id="search-box" placeholder="search here..." />
+        <label for="search-box"
+          ><i class="fa-lg fa-solid fa-magnifying-glass"></i
+        ></label>
+      </div>
+      <!-- Search Form end -->
+
+      <!-- Shopping Cart start -->
+      <div class="shopping-cart">
+        <template x-for="(item, index) in $store.cart.items" x-keys="index">
+          <div class="cart-item">
+            <img :src="`img/${item.img}`" :alt="item.name" />
+            <div class="item-detail">
+              <h3 x-text="item.name"></h3>
+              <div class="item-price">
+                <span x-text="rupiah(item.price)"></span> &times;
+                <button id="remove" @click="$store.cart.remove(item.id)">
+                  &minus;
+                </button>
+                <span x-text="item.quantity"></span>
+                <button id="add" @click="$store.cart.add(item)">&plus;</button>
+                &equals;
+                <span x-text="rupiah(item.total)"></span>
+              </div>
+            </div>
+          </div>
+        </template>
+        <h4 x-show="!$store.cart.items.length" style="margin-top: 1rem">
+          Cart is Empty
+        </h4>
+        <h4 x-show="$store.cart.items.length">
+          Total : <span x-text="rupiah($store.cart.total)"></span>
+        </h4>
+        <div class="form-container" x-show="$store.cart.items.length">
+          <form action="" id="checkoutForm">
+            <input
+              type="hidden"
+              name="items"
+              x-model="JSON.stringify($store.cart.items)"
+            />
+            <input type="hidden" name="total" x-model="$store.cart.total" />
+            <h5>Customer Detail</h5>
+            <label for="name">
+              <span>Name</span>
+              <input type="text" name="name" id="name" />
+            </label>
+            <label for="email">
+              <span>E-mail</span>
+              <input type="email" name="email" id="email" />
+            </label>
+            <label for="phone">
+              <span>Phone</span>
+              <input type="number" name="phone" id="phone" autocomplete="off" />
+            </label>
+            <button
+              class="checkout-button disabled"
+              type="submit"
+              id="checkout-button"
+              value="checkout"
+            >
+              Checkout
+            </button>
+          </form>
+        </div>
+      </div>
+      <!-- Shopping Cart end -->
+    </nav>
+    <!-- Navbar end -->
+
+    <!-- Contact Section start -->
+    <section id="contact" class="contact">
+      <h2><span>Kontak</span> Kami</h2>
+
+      <div class="row">
+        <iframe
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3949.7615905349858!2d113.8093827!3d-8.1257384!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2dd6bfb0d46f19ed%3A0x6197e50e2fbd4c08!2sAfataz!5e0!3m2!1sid!2sid!4v1711512576012!5m2!1sid!2sid"
+          allowfullscreen=""
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+          class="map"
+        ></iframe>
+
+        <form action="" id="contactForm">
+          <div class="input-group">
+            <i class="fa-solid fa-user"></i>
+            <input type="text" placeholder="Nama" />
+          </div>
+          <div class="input-group">
+            <i class="fa-solid fa-envelope"></i>
+            <input type="email" placeholder="E-mail" />
+          </div>
+          <div class="input-group">
+            <i class="fa-solid fa-phone"></i>
+            <input type="number" placeholder="No. Handphone" />
+          </div>
+          <button type="submit" class="btn">Kirim Pesan</button>
+        </form>
+      </div>
+    </section>
+    <!-- Contact Section end -->
+
+    <!-- Footer start -->
+    <footer>
+      <div class="socials">
+        <a href="https://www.instagram.com/sitti_lutfiah?igsh=cWZ0ZXBrcnNsNm10"
+          ><i class="fa-2x fa-brands fa-instagram"></i
+        ></a>
+        <a href="https://wa.me/+6287857766341"
+          ><i class="fa-2x fa-brands fa-whatsapp"></i
+        ></a>
+        <a href="https://www.facebook.com/sitti.lutfiah.10?mibextid=ZbWKwL"
+          ><i class="fa-2x fa-brands fa-facebook-f"></i
+        ></a>
+      </div>
+
+      <div class="links">
+        <a href="index.html">Home</a>
+        <a href="about.html">About Us</a>
+        <a href="products.html">Menu</a>
+        <a href="contact.html">Contact</a>
+      </div>
+
+      <div class="credit">
+        <p>Created by <a href="">Ahmad Ammar Yasir</a>. | &copy; 2024.</p>
+      </div>
+    </footer>
+    <!-- Footer end -->
+
+    <!-- My Javascript -->
+    <script src="js/script.js"></script>
+  </body>
+</html>
